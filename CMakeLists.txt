@@ -4,6 +4,7 @@ project(HTMLCompiler)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(SOURCES
     src/main.cpp
     src/lexer.cpp
@@ -14,3 +15,11 @@ set(SOURCES
 )
 
 add_executable(HTMLCompiler ${SOURCES})
+
+add_custom_target(run_all
+    COMMAND $<TARGET_FILE:HTMLCompiler> ${CMAKE_SOURCE_DIR}/input.html
+    COMMAND g++ -o output_program ${CMAKE_CURRENT_BINARY_DIR}/output.cpp
+    COMMAND output_program
+    DEPENDS HTMLCompiler
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
